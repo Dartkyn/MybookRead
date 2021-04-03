@@ -54,7 +54,6 @@ public class WriterLines implements Serializable {
 		private Book book;
 
 		@ManyToOne(optional = false)
-		@JoinColumn(foreignKey = @ForeignKey(foreignKeyDefinition = "FOREIGN KEY (writer_id) REFERENCES writers (id) ON DELETE CASCADE"))
 		private Writer writer;
 
 		@Override
