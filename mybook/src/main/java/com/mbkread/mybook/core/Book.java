@@ -50,8 +50,12 @@ public class Book implements Serializable {
 		//
 	}
 
-	public Book(String title) {
+	public Book(String title, Double cost, Short pagecnt, String annotation, String imgPath) {
 		this.title = title;
+		this.cost = cost;
+		this.pageCount = pagecnt;
+		this.annotation = annotation;
+		this.imagePath = imgPath;
 	}
 
 	public Long getId() {
