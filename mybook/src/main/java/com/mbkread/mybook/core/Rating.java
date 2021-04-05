@@ -23,7 +23,7 @@ public class Rating implements Serializable {
 	private Long id;
 
 	/** Имя - непустая уникальная колонка */	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = false)
 	private String age;
 	
 	protected Rating() {

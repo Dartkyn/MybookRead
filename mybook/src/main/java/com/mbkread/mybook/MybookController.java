@@ -1,5 +1,10 @@
 package com.mbkread.mybook;
 import com.mbkread.mybook.core.Book;
+import com.mbkread.mybook.core.OriginalLanguage;
+import com.mbkread.mybook.core.Publisher;
+import com.mbkread.mybook.core.Rating;
+import com.mbkread.mybook.core.Translator;
+import com.mbkread.mybook.core.TypeCover;
 import com.mbkread.mybook.svc.MybookService;
 
 import org.apache.commons.logging.Log;
@@ -44,13 +49,17 @@ public class MybookController {
 	/** Маршрут на добавление книги */
 	@RequestMapping(method = RequestMethod.POST, value = "/books")
 	public String createBook(@RequestParam String title,@RequestParam Double cost, 
-			@RequestParam Short pagecnt, @RequestParam String annotation, @RequestParam String imgPath) {
-		Book book = hwJavaService.createBook(title, cost, pagecnt, annotation, imgPath);
+			@RequestParam Short pagecnt, @RequestParam String annotation, @RequestParam String imgPath,
+			@RequestParam Publisher publishID, @RequestParam Translator translatorID, 
+			@RequestParam OriginalLanguage origlangID, @RequestParam Rating ratingID, 
+			@RequestParam TypeCover typecoverID) {
+		Book book = hwJavaService.createBook(title, cost, pagecnt, annotation, imgPath, publishID, 
+				translatorID, origlangID, ratingID, typecoverID);
 		/* В этом случае у нас перенаправление, поэтому возвращаем не имя шаблона, а адрес перенаправления */
 		return "redirect:/books/" + book.getId();
 	}
 
-	/** Маршрут на удалеине книги */
+	/** Маршрут на удаление книги */
 	@RequestMapping(method = RequestMethod.DELETE, value = "/books/{id}")
 	public String deleteStudent(@PathVariable Long id) {
 		hwJavaService.deleteBook(id);

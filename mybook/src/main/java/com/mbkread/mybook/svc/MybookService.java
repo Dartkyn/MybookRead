@@ -18,7 +18,8 @@ public interface MybookService {
 
 	void setWriterLines(Book book, Long[] writerIds);
 
-	Book createBook(String title, Double cost, Short pagecnt, String annotation, String imgPath);
+	Book createBook(String title, Double cost, Short pagecnt, String annotation, String imgPath, Publisher publishID, 
+			Translator translatorID, OriginalLanguage origlangID, Rating ratingID, TypeCover typecoverID);
 
 	void deleteBook(Long id);
 

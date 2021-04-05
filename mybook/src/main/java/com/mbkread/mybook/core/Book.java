@@ -5,8 +5,11 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -22,25 +25,45 @@ public class Book implements Serializable {
 	@GeneratedValue
 	private Long id;
 
-	/** Наименование - непустая уникальная колонка */	
-	@Column(nullable = false, unique = true)
+	/** Наименование - непустая  колонка */	
+	@Column(nullable = false, unique = false)
 	private String title;
 
-	/** Стоимость - непустая уникальная колонка */	
-	@Column(nullable = false, unique = true)
+	/** Стоимость - непустая  колонка */	
+	@Column(nullable = false, unique = false)
 	private Double cost;
 	
-	/** Количество страниц - непустая уникальная колонка */	
-	@Column(nullable = false, unique = true)
+	/** Количество страниц - непустая  колонка */	
+	@Column(nullable = false, unique = false)
 	private Short pageCount;
 	
-	/** Аннотация - непустая уникальная колонка */	
-	@Column(nullable = false, unique = true)
+	/** Аннотация - непустая  колонка */	
+	@Column(nullable = false, unique = false)
 	private String annotation;
 	
-	/** Путь к изображению - непустая уникальная колонка */	
-	@Column(nullable = false, unique = true)
+	/** Путь к изображению - непустая  колонка */	
+	@Column(nullable = false, unique = false)
 	private String imagePath;
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(foreignKey = @ForeignKey(foreignKeyDefinition = "FOREIGN KEY (publish_id) REFERENCES publishers (id) ON DELETE CASCADE"))
+	private Publisher publishID;
+	
+	@ManyToOne(optional = true)
+	@JoinColumn(foreignKey = @ForeignKey(foreignKeyDefinition = "FOREIGN KEY (translator_id) REFERENCES translators (id) ON DELETE RESTRICT"))
+	private Translator translatorID;
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(foreignKey = @ForeignKey(foreignKeyDefinition = "FOREIGN KEY (originalLanguage_id) REFERENCES originallanguage (id) ON DELETE RESTRICT"))
+	private OriginalLanguage origlangID;
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(foreignKey = @ForeignKey(foreignKeyDefinition = "FOREIGN KEY (rating_id) REFERENCES ratings (id) ON DELETE RESTRICT"))
+	private Rating ratingID;
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(foreignKey = @ForeignKey(foreignKeyDefinition = "FOREIGN KEY (typecover_id) REFERENCES typecovers (id) ON DELETE RESTRICT"))
+	private TypeCover typecoverID;
 	
 	/** Коллекция строк писателей */
 	@OneToMany(mappedBy = "id.book", cascade = CascadeType.REMOVE)
@@ -50,12 +73,18 @@ public class Book implements Serializable {
 		//
 	}
 
-	public Book(String title, Double cost, Short pagecnt, String annotation, String imgPath) {
+	public Book(String title, Double cost, Short pagecnt, String annotation, String imgPath, Publisher publish, 
+			Translator translatorID, OriginalLanguage origlangID, Rating ratingID, TypeCover typecoverID) {
 		this.title = title;
 		this.cost = cost;
 		this.pageCount = pagecnt;
 		this.annotation = annotation;
 		this.imagePath = imgPath;
+		this.publishID = publish;
+		this.translatorID = translatorID;
+		this.origlangID = origlangID;
+		this.ratingID = ratingID;
+		this.typecoverID = typecoverID;
 	}
 
 	public Long getId() {

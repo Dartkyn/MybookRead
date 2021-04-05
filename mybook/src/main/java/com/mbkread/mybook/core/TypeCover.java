@@ -23,7 +23,7 @@ public class TypeCover implements Serializable {
 	private Long id;
 
 	/** Имя - непустая уникальная колонка */	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = false)
 	private String name;
 	
 	protected TypeCover() {

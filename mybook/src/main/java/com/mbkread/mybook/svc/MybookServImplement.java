@@ -52,8 +52,10 @@ public class MybookServImplement implements MybookService{
 	}
 
 	@Override
-	public Book createBook(String title, Double cost, Short pagecnt, String annotation, String imgPath) {
-		return bookz.save(new Book(title, cost, pagecnt, annotation, imgPath));
+	public Book createBook(String title, Double cost, Short pagecnt, String annotation, String imgPath, Publisher publishID, 
+			Translator translatorID, OriginalLanguage origlangID, Rating ratingID, TypeCover typecoverID) {
+		return bookz.save(new Book(title, cost, pagecnt, annotation, imgPath, publishID, 
+				translatorID, origlangID, ratingID, typecoverID));
 	}
 
 	@Override

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="base">
+
+  <body>
+   <div class="container-fluid mt-5">
+    <div:block class="row" layout:fragment="rows">
+   	<div th:each="book: ${books}" class="card-group">
+    	<div class="card">
+  			<div class="card-body">
+  				<img src="/img/book_3.jpg"  style="height: 18rem;" class="card-img-top mx-left" alt="...">
+    			<h5 class="card-title"><th::text="${book.getName()}"\>
+          </h5>
+ 			 </div>
+  		<ul class="list-group list-group-flush">
+  	  	<li class="list-group-item">Aвтор: Такой-то</li>
+  		</ul>
+  		<div class="card-body">
+    	<a href="/bookinfo.html" class="btn btn-success btn-sm">Подробнее</a>
+    	<a href="#" class="btn btn-primary btn-sm">Заказать</a>
+  		</div>
+		</div>
+	</div>
+	   </div:block>
+   </div>
+  </body>
+</html>

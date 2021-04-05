@@ -23,19 +23,19 @@ public class Translator implements Serializable {
 	private Long id;
 
 	/** Имя - непустая уникальная колонка */	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = false)
 	private String name;
 
 	/** Фамилия - непустая уникальная колонка */	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = false)
 	private String surname;
 	
 	/** Отчество - непустая уникальная колонка */	
-	@Column(nullable = true, unique = true)
+	@Column(nullable = true, unique = false)
 	private String midname;
 	
 	/** Дата рождения - непустая уникальная колонка */	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = false)
 	private String birthDate;
 	
 	protected Translator() {
