@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
- <head>
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="BASE">
+  <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -13,7 +14,7 @@
     <title>MYBOOK</title>
   </head>
   <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
     <a class="navbar-brand" href="index.html">MYBOOK</a>
     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,13 +53,13 @@
         <li class="list-group-item">
         <button type="button" class="btn btn-success">Заказать</button>
         <button type="button" class="btn btn-secondary">Редактировать</button></li>
-        <li class="list-group-item">Автор: Такой-то</li>
-        <li class="list-group-item">Издательство: Бабушкины сказки</li>
-        <li class="list-group-item">Язык оригинала: Аглицкий</li>
-        <li class="list-group-item">Переводчик: Такой-то</li>
-        <li class="list-group-item">Тип обложки: Мелкомягкий</li>
-        <li class="list-group-item">Возрастной рейтинг: Не для слабонервных</li>
-        <li class="list-group-item">Количество страниц: <td th:text="${book.getPageCount()}"</li>
+        <li class="list-group-item">Автор: <td th:text="${book.getWriters()}"></td></li>
+        <li class="list-group-item">Издательство: <td th:text="${book.getPublisher()}"></td></li>
+        <li class="list-group-item">Язык оригинала: <td th:text="${book.getOrigLang()}"></td></li>
+        <li class="list-group-item">Переводчик: <td th:text="${book.getTranslator()}"></td</li>
+        <li class="list-group-item">Тип обложки: <td th:text="${book.getTypeCover()}"></td</li>
+        <li class="list-group-item">Возрастной рейтинг: <td th:text="${book.getRating()}"></td</li>
+        <li class="list-group-item">Количество страниц: <td th:text="${book.getPageCount()}"></td></li>
         </ul>
         </div>
       </div>
@@ -74,8 +75,5 @@
         </div>
     </div>
    </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   </body>
 </html>

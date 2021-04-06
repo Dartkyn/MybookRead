@@ -31,8 +31,8 @@ public class WriterLines implements Serializable {
 		id.writer = writer;
 	}
 
-	public Writer getWriter() {
-		return id.writer;
+	public String getWriter() {
+		return id.writer.toString();
 	}
 
 
@@ -55,7 +55,7 @@ public class WriterLines implements Serializable {
 
 		@ManyToOne(optional = false)
 		private Writer writer;
-
+		
 		@Override
 		public String toString() {
 			return String.format("%s %s", book, writer);

@@ -42,7 +42,7 @@ public class MybookController {
 	@RequestMapping(method = RequestMethod.GET, value = "/books/{id}")
 	public String book(@PathVariable Long id, Model vars) {
 		Book book = hwJavaService.book(id);
-		vars.addAttribute("book", book).addAttribute("writerlines", hwJavaService.writerlines(book));
+		vars.addAttribute("book", book);
 		return "book";
 	}
 

@@ -111,6 +111,35 @@ public class Book implements Serializable {
 		return imagePath;
 	}
 	
+	public String getPublisher() {
+		return publishID.getName();
+	}
+	
+	public String getTranslator() {
+		return translatorID.toString();
+	}
+	
+	public String getOrigLang() {
+		return origlangID.getName();
+	}
+	
+	public String getRating() {
+		return ratingID.getName();
+	}
+	
+	public String getTypeCover() {
+		return typecoverID.getName();
+	}
+	
+	public String getWriters() {
+		String s = "";
+		for(WriterLines writer:writerlines)
+			{
+				s=s.concat(writer.getWriter());
+			}
+		return s;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("(book %d %s)", id, title);

@@ -77,7 +77,7 @@ public class Writer implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("(writer %d %s %s)", id, name, surname);
+		return String.format("%s %s", name, surname);
 	}
 
 }
