@@ -12,7 +12,6 @@ public class MybookApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MybookApplication.class, args);
 	}
-	
 	@SuppressWarnings("deprecation")
 	@Bean
 	public Filter httpPutFormContentFilter() {

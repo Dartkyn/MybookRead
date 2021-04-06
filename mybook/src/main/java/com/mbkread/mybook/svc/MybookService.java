@@ -23,4 +23,6 @@ public interface MybookService {
 
 	void deleteBook(Long id);
 
+	Object writerlines(Book book);
+
 }

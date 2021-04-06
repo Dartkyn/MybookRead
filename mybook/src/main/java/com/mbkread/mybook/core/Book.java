@@ -94,7 +94,23 @@ public class Book implements Serializable {
 	public String getName() {
 		return title;
 	}
-
+	
+	public Double getCost() {
+		return cost;
+	}
+	
+	public Short getPageCount() {
+		return pageCount;
+	}
+	
+	public String getAnnotation() {
+		return annotation;
+	}
+	
+	public String getImage() {
+		return imagePath;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("(book %d %s)", id, title);

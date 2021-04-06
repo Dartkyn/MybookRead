@@ -1,27 +1,61 @@
 <!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="base">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+ <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" href="/img/book.ico" />
+    <title>MYBOOK</title>
+  </head>
   <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">MYBOOK</a>
+    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+      <ul class="navbar-nav ml-auto">
+        <form class="d-flex">
+        <input class="form-control me-2"  type="text" placeholder="Поиск" aria-label="Search" />
+        </form>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Корзина</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="login.html">Пользователь</a>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link" href="addbook.html">Добавить книгу</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
    <div class="container-fluid mt-5">
-    <div:block class="row" layout:fragment="rows">
-   	<div th:each="book: ${books}" class="card-group">
+    <th:block layout:fragment="rows" />
+   	<div class="card-group">
+      <tr th:each="book: ${books}">
     	<div class="card">
   			<div class="card-body">
-  				<img src="/img/book_3.jpg"  style="height: 18rem;" class="card-img-top mx-left" alt="...">
-    			<h5 class="card-title"><th::text="${book.getName()}"\>
+  				<img th:src="${book.getImage()}"  style="height: 18rem;" class="card-img-top mx-left" th:alt="${book.getImage()}" \>
+    			<h5 class="card-title"><td th:text="${book.getName()}"></td>
           </h5>
  			 </div>
   		<ul class="list-group list-group-flush">
-  	  	<li class="list-group-item">Aвтор: Такой-то</li>
+  	  	<li class="list-group-item">Стоимость: <td th:text="${book.getCost()}"></td></li>
   		</ul>
   		<div class="card-body">
-    	<a href="/bookinfo.html" class="btn btn-success btn-sm">Подробнее</a>
+    	<a th:href="@{'/books/' + ${book.getId()}}" class="btn btn-success btn-sm">Подробнее</a>
     	<a href="#" class="btn btn-primary btn-sm">Заказать</a>
   		</div>
 		</div>
 	</div>
-	   </div:block>
+	   </div>
    </div>
   </body>
 </html>

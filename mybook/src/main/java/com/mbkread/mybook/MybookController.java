@@ -38,16 +38,16 @@ public class MybookController {
 		return "books";
 	}
 
-	/** Страница одного книги, маршрут с параметром */
+	/** Страница одной книги, маршрут с параметром */
 	@RequestMapping(method = RequestMethod.GET, value = "/books/{id}")
-	public String student(@PathVariable Long id, Model vars) {
+	public String book(@PathVariable Long id, Model vars) {
 		Book book = hwJavaService.book(id);
-		//vars.addAttribute("book", book).addAttribute("writerlines", hwJavaService.writerlines(book));
+		vars.addAttribute("book", book).addAttribute("writerlines", hwJavaService.writerlines(book));
 		return "book";
 	}
 
 	/** Маршрут на добавление книги */
-	@RequestMapping(method = RequestMethod.POST, value = "/books")
+	@RequestMapping(method = RequestMethod.POST, value = "/books/addbook")
 	public String createBook(@RequestParam String title,@RequestParam Double cost, 
 			@RequestParam Short pagecnt, @RequestParam String annotation, @RequestParam String imgPath,
 			@RequestParam Publisher publishID, @RequestParam Translator translatorID, 
@@ -66,7 +66,7 @@ public class MybookController {
 		return "redirect:/";
 	}
 
-	/** Маршрут на редактирование авторов студента */
+	/** Маршрут на редактирование авторов книги */
 	@RequestMapping(method = RequestMethod.PUT, value = "/books/{id}/writerlines")
 	public String setWriterlines(@PathVariable Long id, @RequestParam("writerIds[]") Long[] writerIds) {
 		Book book = hwJavaService.book(id);

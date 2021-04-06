@@ -1,18 +1,19 @@
 <!doctype html>
-<html lang="en">
-  <head>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+ <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" href="/img/book.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" href="/img/book.ico" />
     <title>MYBOOK</title>
   </head>
   <body>
-
-  	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
     <a class="navbar-brand" href="index.html">MYBOOK</a>
     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +21,7 @@
     </button>
       <ul class="navbar-nav ml-auto">
         <form class="d-flex">
-        <input class="form-control me-2"  type="text" placeholder="Поиск" aria-label="Search">
+        <input class="form-control me-2"  type="text" placeholder="Поиск" aria-label="Search" />
         </form>
         <li class="nav-item">
           <a class="nav-link" href="#">Корзина</a>
@@ -34,20 +35,20 @@
       </ul>
     </div>
   </nav>
-
+  <th:block layout:fragment="rows">
    <div class="container mt-5">
    	<div class="row">
-      <h2 class="title">Наименование</h2>
+      <h2 class="title"><td th:text="${book.getName()}"></td></h2>
     </div>
     <div class="row">
       <div class="card-group">
       <div class="card"style="width: 8rem;">
       <div class="card-body">
-      <img src="/img/book_9.jpg" class="rounded mx-left col-lg-6" alt="...">
+      <img th:src="${book.getImage()}"  style="height: 18rem;" class="card-img-top mx-left" th:alt="${book.getImage()}" \>
         </div></div>
         <div class="card" style="width: 30rem;">
         <ul class="list-group list-group-flush">
-        <li class="list-group-item">Миллион баксонов</li>
+        <li class="list-group-item"><td th:text="${book.getCost()}"</li>
         <li class="list-group-item">
         <button type="button" class="btn btn-success">Заказать</button>
         <button type="button" class="btn btn-secondary">Редактировать</button></li>
@@ -57,7 +58,7 @@
         <li class="list-group-item">Переводчик: Такой-то</li>
         <li class="list-group-item">Тип обложки: Мелкомягкий</li>
         <li class="list-group-item">Возрастной рейтинг: Не для слабонервных</li>
-        <li class="list-group-item">Количество страниц: 100500</li>
+        <li class="list-group-item">Количество страниц: <td th:text="${book.getPageCount()}"</li>
         </ul>
         </div>
       </div>
@@ -67,7 +68,7 @@
           <div class="card-body">
           <h5 class="card-title">Аннотация:</h5>
           <p class="card-text">
-          Какой-то странный и замысловатый текст, служащий описанию данного произведения, содержащего без сомнения умные и глубокие мысли.
+          <td th:text="${book.getAnnotation()}"
           </p>
           </div>
         </div>

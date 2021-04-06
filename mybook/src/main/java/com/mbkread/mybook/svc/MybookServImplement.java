@@ -72,6 +72,12 @@ public class MybookServImplement implements MybookService{
 		
 	}
 
+	@Override
+	public Object writerlines(Book book) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 }
