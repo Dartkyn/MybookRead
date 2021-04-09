@@ -10,6 +10,11 @@ import javax.transaction.Transactional;
 import com.mbkread.mybook.core.Writer;
 import com.mbkread.mybook.core.WriterLines;
 import com.mbkread.mybook.repo.BookRepository;
+import com.mbkread.mybook.repo.OrigLangRepository;
+import com.mbkread.mybook.repo.PublisherRepository;
+import com.mbkread.mybook.repo.RatingRepository;
+import com.mbkread.mybook.repo.TranslatorRepository;
+import com.mbkread.mybook.repo.TypeCoverRepository;
 import com.mbkread.mybook.repo.WriterRepository;
 import com.mbkread.mybook.repo.WriterLinesRepository;
 import com.mbkread.mybook.core.Translator;
@@ -35,10 +40,26 @@ public class MybookServImplement implements MybookService{
 
 	@Autowired
 	private WriterRepository writerz;
-
+	
 	@Autowired
 	private WriterLinesRepository writerlinez;
 
+	@Autowired
+	private OrigLangRepository origlangz;
+	
+	@Autowired
+	private PublisherRepository publisherz;
+	
+	@Autowired
+	private RatingRepository ratingz;
+	
+	@Autowired
+	private TranslatorRepository translatorz;
+	
+	@Autowired
+	private TypeCoverRepository typecoverz;
+	
+	
 	protected final Log log = LogFactory.getLog(getClass());
 	
 	@Override
@@ -74,8 +95,47 @@ public class MybookServImplement implements MybookService{
 
 	@Override
 	public Object writerlines(Book book) {
-		// TODO Auto-generated method stub
-		return null;
+		return writerlinez.findAll();
+	}
+
+	@Override
+	public Collection<Publisher> publishers() {
+		return publisherz.findAll();
+	}
+
+	@Override
+	public Collection<OriginalLanguage> origlangs() {
+		return origlangz.findAll();
+	}
+
+	@Override
+	public Collection<TypeCover> typecovers() {
+		return typecoverz.findAll();
+	}
+
+	@Override
+	public Collection<Rating> ratings() {
+		return ratingz.findAll();
+	}
+
+	@Override
+	public Collection<Writer> writers() {
+		return writerz.findAll();
+	}
+
+	@Override
+	public Collection<Translator> translators() {
+		return translatorz.findAll();
+	}
+
+	@Override
+	public WriterLines createWriterLine(Book bookID, Writer writerID) {
+		return writerlinez.save(new WriterLines(bookID, writerID));
+	}
+
+	@Override
+	public Book createBook(Book book) {
+		return bookz.save(book);
 	}
 
 

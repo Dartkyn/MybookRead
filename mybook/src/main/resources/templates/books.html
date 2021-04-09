@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+<html lang="en"
  xmlns:th="http://www.thymeleaf.org"
   xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
  <head>
@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="icon" href="/img/book.ico" />
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" href="/images/book.ico" />
     <title>MYBOOK</title>
   </head>
   <body>
@@ -30,16 +30,16 @@
           <a class="nav-link" href="login.html">Пользователь</a>
         </li>
          <li class="nav-item">
-          <a class="nav-link" th:href="@{'/books/addbook'}">Добавить книгу</a>
+          <a class="nav-link" th:href="@{'/new'}">Добавить книгу</a>
         </li>
       </ul>
     </div>
   </nav>
 
    <div class="container-fluid mt-5">
-    <th:block layout:fragment="rows" />
-   	<div class="card-group">
+   	<div class="row">
       <tr th:each="book: ${books}">
+        <div class="col-md-3">
     	<div class="card">
   			<div class="card-body">
   				<img th:src="${book.getImage()}"  style="height: 18rem;" class="card-img-top mx-left" th:alt="${book.getImage()}" \>
@@ -55,6 +55,7 @@
   		</div>
 		</div>
 	</div>
+  </th:block>
 	   </div>
    </div>
   </body>

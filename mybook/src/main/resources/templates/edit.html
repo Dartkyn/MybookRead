@@ -1,20 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
   <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" href="/img/book.ico">
-    <title>MYBOOK</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" href="/images/book.ico" />
+    <title>Edit</title>
   </head>
   <body>
 
   	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-    <a class="navbar-brand" href="index.html">MYBOOK</a>
+    <a class="navbar-brand" href="/">MYBOOK</a>
     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -26,7 +28,7 @@
           <a class="nav-link" href="#">Корзина</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="login.html">Пользователь</a>
+          <a class="nav-link" href="#">Пользователь</a>
         </li>
          <li class="nav-item">
           <a class="nav-link" href="#">Добавить книгу</a>
@@ -35,8 +37,11 @@
     </div>
   </nav>
   <div class="container mt-5 p-5">
-    <form>
+   <form th:action="'/edit/' + ${book.getId()}"
+   th:object="${book}"
+    method="post">
     <div class="row">
+
     <h1>Введите данные книги</h1>
     </div>
     <div class="form-group">
@@ -44,13 +49,13 @@
       <div class="col-md-5">
       <div class="input-group mb-3">
       <label class="input-group-text" for="inputGroupFile01">Загрузить изображение обложки</label>
-      <input type="file" class="form-control" id="inputGroupFile01">
+      <input type="file" th:value="${book.getImage()}" name = "imgPath" class="form-control" id="inputGroupFile01">
       </div>
       </div>
       <div class="col-md-7">
       <div class="input-group">
       <span class="input-group-text">Наименование</span>
-      <input type="text" class="form-control">
+      <input type="text" th:value="${book.getName()}" name = "title" class="form-control">
       </div>
       </div>
       </div>
@@ -59,83 +64,65 @@
       <div class="input-group mb-3">
       <span class="input-group-text">Стоимость</span>
       <span class="input-group-text">Руб.</span>
-      <input type="text" class="form-control">
+      <input type="text" th:value="${book.getCost()}" name = "cost" class="form-control">
       </div>
       </div>
       <div class="col-md-7">
       <div class="input-group mb-3">
       <span class="input-group-text">Количество страниц</span>
-      <input type="text" class="form-control">
+      <input type="text" th:value="${book.getPageCount()}" name = "pagecnt"class="form-control">
       </div>
       </div>
       </div>
       <div class="row">
       <div class="col-md-4">
 <label for="Input">Автор</label>
-<select class="form-control" id="exampleFormControlSelect1">
-<option>Роберт Сапольски</option>
-<option>Карл Маркс</option>
-<option>Владимир Ленин</option>
- <option>Фридрих Энгельс</option>
+<select class="form-control" name ="writerID" id="exampleFormControlSelect1">
+  <option th:each="writer : ${writers}" th:value="${writer.getId()}" th:text="${writer.toString()}"></option>
 </select>
 </div>
 <div class="col-md-4">
 <label for="Input">Издательство</label>
-<select class="form-control" id="exampleFormControlSelect1">
-<option>Азбука</option>
-<option>Шанс</option>
-<option>Просвещение</option>
-<option>Аст</option>
+<select class="form-control" name ="publishID"id="exampleFormControlSelect1">
+  <option th:each="publisher : ${publishers}" th:value="${publisher.getId()}" th:text="${publisher.getName()}"></option>
 </select>
 </div>
 <div class="col-md-4">
 <label for="Input">Тип обложки</label>
-<select class="form-control" id="exampleFormControlSelect1">
-<option>Твердый</option>
-<option>Мягкий</option>
+<select class="form-control" name = "typecoverID" id="exampleFormControlSelect1">
+  <option th:each="typecover : ${typecovers}" th:value="${typecover.getId()}" th:text="${typecover.getName()}"></option>
 </select>
 </div>
 </div>
 <div class="row">
 <div class="col-md-4">
 <label for="Input">Язык оригинала</label>
-<select class="form-control" id="exampleFormControlSelect1">
-<option>Русский</option>
-<option>Английский</option>
-<option>Немецкий</option>
-<option>Китайский</option>
+<select class="form-control" name = "origlangID" id="exampleFormControlSelect1">
+<option th:each="origlang : ${origlangs}" th:value="${origlang.getId()}" th:text="${origlang.getName()}"></option>
 </select>
 </div>
 <div class="col-md-4">
 <label for="Input">Переводчик</label>
-<select class="form-control" id="exampleFormControlSelect1">
-<option>-</option>
-<option>Виктор Топоров</option>
-<option>Геннадий Киселев</option>
-<option>Максим Немцов</option>
+<select class="form-control" name= "translatorID" id="exampleFormControlSelect1">
+   <option th:each="translator : ${translators}" th:value="${translator.getId()}" th:text="${translator.toString()}"></option>
 </select>
 </div>
 <div class="col-md-4">
-<label for="Input">Восрастной рейтинг</label>
-<select class="form-control" id="exampleFormControlSelect1">
-<option>6+</option>
-<option>12+</option>
-<option>16+</option>
-<option>18+</option>
+<label for="Input">Возрастной рейтинг</label>
+<select class="form-control" name="ratingID" id="exampleFormControlSelect1">
+  <option th:each="rating : ${ratings}" th:value="${rating.getId()}" th:text="${rating.getName()}"></option>
 </select>
 </div>
 </div>
-<form>
 <div class="form-group">
 <label for="Textarea">Аннотация</label>
-<textarea class="form-control" id="Textarea" rows="3"></textarea>
+<textarea class="form-control" th:text="${book.getAnnotation()}" name = "annotation" id="Textarea" rows="3" />
 </div>
-</form>
-<button type="submit" class="btn btn-primary">Добавить</button>
+<button type="submit" class="btn btn-primary">Изменить</button>
+<form method="post" action="/delete" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <button class="btn btn-outline-danger my-2 btn-sm" type="submit">Удалить</button>
+      </form>
 </form>
 </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   </body>
 </html>

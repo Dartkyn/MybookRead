@@ -1,6 +1,4 @@
-<!doctype html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<div th:fragment="base">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
@@ -11,7 +9,7 @@
     <link rel="icon" href="/img/book.ico" />
     <title>MYBOOK</title>
   </head>
-  <body>
+</div>
 
   	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -35,9 +33,3 @@
       </ul>
     </div>
   </nav>
-
-   <div class="container-fluid mt-5">
-   	<th:block layout:fragment="rows" />
-   </div>
-  </body>
-</html>

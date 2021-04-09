@@ -140,6 +140,51 @@ public class Book implements Serializable {
 		return s;
 	}
 	
+	public void setName(String title) {
+		this.title = title;
+	}
+	
+	public void setCost(Double cost) {
+		this.cost = cost;
+	}
+	
+	public void setPageCount(Short pageCount) {
+		this.pageCount = pageCount;
+		}
+	
+	public void setAnnotation(String annotation) {
+		this.annotation = annotation;
+	}
+	
+	public void setImage(String imagePath) {
+		this.imagePath = imagePath;
+	}
+	
+	public void setPublisher(Publisher publishID) {
+		this.publishID = publishID;
+	}
+	
+	public void setTranslator(Translator translatorID) {
+		this.translatorID = translatorID;
+	}
+	
+	public void setOrigLang(OriginalLanguage origlangID) {
+		this.origlangID = origlangID;
+	}
+	
+	public void setRating(Rating ratingID) {
+		this.ratingID = ratingID;
+	}
+	
+	public void setTypeCover(TypeCover typecoverID) {
+		this.typecoverID = typecoverID;
+	}
+	
+	public void setWriters(Writer writer) {
+		writerlines.clear();
+		writerlines.add(new WriterLines(this, writer));
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("(book %d %s)", id, title);

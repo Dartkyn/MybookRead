@@ -5,6 +5,8 @@ import com.mbkread.mybook.core.Publisher;
 import com.mbkread.mybook.core.Rating;
 import com.mbkread.mybook.core.Translator;
 import com.mbkread.mybook.core.TypeCover;
+import com.mbkread.mybook.core.Writer;
+import com.mbkread.mybook.core.WriterLines;
 import com.mbkread.mybook.svc.MybookService;
 
 import org.apache.commons.logging.Log;
@@ -12,7 +14,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +36,7 @@ public class MybookController {
 	/** Дальше пошли обработчики маршрутов */
 	
 	/** Список книг */
-	@RequestMapping(method = RequestMethod.GET, value = "/")
+	@GetMapping("/")
 	public String index(Model vars) {
 		/* Заполняем модель для представления */
 		vars.addAttribute("books", hwJavaService.books()); 
@@ -39,35 +45,81 @@ public class MybookController {
 	}
 
 	/** Страница одной книги, маршрут с параметром */
-	@RequestMapping(method = RequestMethod.GET, value = "/books/{id}")
+	@GetMapping("/books/{id}")
 	public String book(@PathVariable Long id, Model vars) {
 		Book book = hwJavaService.book(id);
 		vars.addAttribute("book", book);
 		return "book";
 	}
-
-	/** Маршрут на добавление книги */
-	@RequestMapping(method = RequestMethod.POST, value = "/books/addbook")
-	public String createBook(@RequestParam String title,@RequestParam Double cost, 
+	
+	/** Страница редактирования одной книги, маршрут с параметром */
+	@GetMapping("/edit/{id}")
+	public String editBook(@PathVariable Long id, Model vars) {
+		Book book = hwJavaService.book(id);
+		vars.addAttribute("book", book).addAttribute("publishers", hwJavaService.publishers()).addAttribute("writers", 
+				hwJavaService.writers()).addAttribute("typecovers", hwJavaService.typecovers()).addAttribute("origlangs", 
+				hwJavaService.origlangs()).addAttribute("translators", hwJavaService.translators()).addAttribute("ratings", 
+				hwJavaService.ratings());
+		return "edit";
+	}
+	
+	/** Маршрут на форму редактирования книги */
+	@PostMapping("/edit/{id}")
+	public String editNewBook(@PathVariable("id") Long id,@RequestParam String title,@RequestParam Double cost, 
 			@RequestParam Short pagecnt, @RequestParam String annotation, @RequestParam String imgPath,
 			@RequestParam Publisher publishID, @RequestParam Translator translatorID, 
 			@RequestParam OriginalLanguage origlangID, @RequestParam Rating ratingID, 
-			@RequestParam TypeCover typecoverID) {
-		Book book = hwJavaService.createBook(title, cost, pagecnt, annotation, imgPath, publishID, 
-				translatorID, origlangID, ratingID, typecoverID);
+			@RequestParam TypeCover typecoverID, @RequestParam Writer writerID) {
+		Book book = hwJavaService.book(id);
+		book.setName(title);
+		book.setAnnotation(annotation);
+		book.setCost(cost);
+		book.setImage("/images/"+imgPath);
+		book.setPageCount(pagecnt);
+		book.setOrigLang(origlangID);
+		book.setPublisher(publishID);
+		book.setRating(ratingID);
+		book.setTranslator(translatorID);
+		book.setWriters(writerID);
+		book.setTypeCover(typecoverID);
+		book = hwJavaService.createBook(book);
 		/* В этом случае у нас перенаправление, поэтому возвращаем не имя шаблона, а адрес перенаправления */
-		return "redirect:/books/" + book.getId();
+		return "redirect:/";
+	}
+
+	/** Маршрут на добавление книги */
+	@GetMapping("/new")
+	public String createBook(Model vars) {
+		vars.addAttribute("publishers", hwJavaService.publishers()).addAttribute("writers", 
+				hwJavaService.writers()).addAttribute("typecovers", hwJavaService.typecovers()).addAttribute("origlangs", 
+				hwJavaService.origlangs()).addAttribute("translators", hwJavaService.translators()).addAttribute("ratings", 
+				hwJavaService.ratings());
+		return "new";
+	}
+	
+	/** Маршрут на добавление книги */
+	@PostMapping("/new")
+	public String createNewBook(@RequestParam String title,@RequestParam Double cost, 
+			@RequestParam Short pagecnt, @RequestParam String annotation, @RequestParam String imgPath,
+			@RequestParam Publisher publishID, @RequestParam Translator translatorID, 
+			@RequestParam OriginalLanguage origlangID, @RequestParam Rating ratingID, 
+			@RequestParam TypeCover typecoverID, @RequestParam Writer writerID) {
+		Book book = hwJavaService.createBook(title, cost, pagecnt, annotation,   "/images/" + imgPath, publishID, 
+				translatorID, origlangID, ratingID, typecoverID);
+		WriterLines writerLine = hwJavaService.createWriterLine(book, writerID);
+		/* В этом случае у нас перенаправление, поэтому возвращаем не имя шаблона, а адрес перенаправления */
+		return "redirect:/";
 	}
 
 	/** Маршрут на удаление книги */
-	@RequestMapping(method = RequestMethod.DELETE, value = "/books/{id}")
+	@DeleteMapping("/edit/{id}")
 	public String deleteStudent(@PathVariable Long id) {
 		hwJavaService.deleteBook(id);
 		return "redirect:/";
 	}
 
 	/** Маршрут на редактирование авторов книги */
-	@RequestMapping(method = RequestMethod.PUT, value = "/books/{id}/writerlines")
+	@PutMapping("/books/{id}/writerlines")
 	public String setWriterlines(@PathVariable Long id, @RequestParam("writerIds[]") Long[] writerIds) {
 		Book book = hwJavaService.book(id);
 		hwJavaService.setWriterLines(book, writerIds);
