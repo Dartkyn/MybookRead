@@ -1,4 +1,9 @@
 package com.mbkread.mybook;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.google.gson.Gson;
 import com.mbkread.mybook.core.Book;
 import com.mbkread.mybook.core.OriginalLanguage;
 import com.mbkread.mybook.core.Publisher;
@@ -8,6 +13,8 @@ import com.mbkread.mybook.core.TypeCover;
 import com.mbkread.mybook.core.Writer;
 import com.mbkread.mybook.core.WriterLines;
 import com.mbkread.mybook.svc.MybookService;
+
+import java.io.IOException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,6 +29,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /** Аннотация сообщает контейнеру компонентов, что этот класс является контроллером*/
 @Controller
@@ -42,6 +50,19 @@ public class MybookController {
 		vars.addAttribute("books", hwJavaService.books()); 
 		/* Возвращаем имя шаблона, который надо рендерить */
 		return "books";
+	}
+	
+	/** Список справочников */
+	@GetMapping("/catalog")
+	public String catalog(Model vars) {
+		/* Заполняем модель для представления */
+		vars.addAttribute("publishers", hwJavaService.publishers()).
+				addAttribute("typecovers", hwJavaService.typecovers()).
+				addAttribute("origlangs", 
+				hwJavaService.origlangs()).addAttribute("ratings", 
+				hwJavaService.ratings()); 
+		/* Возвращаем имя шаблона, который надо рендерить */
+		return "catalog";
 	}
 
 	/** Страница одной книги, маршрут с параметром */
@@ -124,6 +145,23 @@ public class MybookController {
 		Book book = hwJavaService.book(id);
 		hwJavaService.setWriterLines(book, writerIds);
 		return "redirect:/books/" + book.getId();
+	}
+	
+	@RequestMapping(value="/publishers", method=RequestMethod.GET)
+	public @ResponseBody String getPublishers(Model vars) throws JsonParseException, IOException
+	{
+		Gson gson = new Gson();
+		vars.addAttribute("publishers", hwJavaService.publishers());
+		String str = "";
+		str = gson.toJson(hwJavaService.publishers());
+		return str;
+	}
+	/** Страница редактирования одной книги, маршрут с параметром */
+	@GetMapping("/publisher/{id}")
+	public String editPublisher(@PathVariable Long id, Model vars) {
+		
+		Publisher publisher = hwJavaService.publisher(id);
+		return publisher.getName();
 	}
 
 }

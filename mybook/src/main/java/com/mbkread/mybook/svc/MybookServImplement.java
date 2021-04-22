@@ -138,6 +138,11 @@ public class MybookServImplement implements MybookService{
 		return bookz.save(book);
 	}
 
+	@Override
+	public Publisher publisher(Long id) {
+			return publisherz.getOne(id);
+	}
+
 
 
 }

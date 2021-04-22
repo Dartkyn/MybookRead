@@ -21,7 +21,7 @@ public interface MybookService {
 	Collection<Writer> writers();
 	Collection<Translator> translators();
 	Book book(Long id);
-
+	Publisher publisher(Long id);
 	void setWriterLines(Book book, Long[] writerIds);
 
 	Book createBook(String title, Double cost, Short pagecnt, String annotation, String imgPath, Publisher publishID, 
