@@ -143,6 +143,11 @@ public class MybookServImplement implements MybookService{
 			return publisherz.getOne(id);
 	}
 
+	@Override
+	public Publisher createPublisher(String name) {
+		return publisherz.save(new Publisher(name));
+	}
+
 
 
 }

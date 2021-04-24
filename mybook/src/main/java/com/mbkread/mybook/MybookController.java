@@ -156,11 +156,19 @@ public class MybookController {
 		str = gson.toJson(hwJavaService.publishers());
 		return str;
 	}
-	/** Страница редактирования одной книги, маршрут с параметром */
+	/** Страница редактирования одного издателя, маршрут с параметром */
 	@GetMapping("/publisher/{id}")
 	public String editPublisher(@PathVariable Long id, Model vars) {
 		
 		Publisher publisher = hwJavaService.publisher(id);
+		return publisher.getName();
+	}
+	
+	/** Маршрут на добавление издателя */
+	@PostMapping("/publisher/new")
+	public String createNewPublisher(@RequestParam String name) {
+		Publisher publisher = hwJavaService.createPublisher(name);
+		/* В этом случае у нас перенаправление, поэтому возвращаем не имя шаблона, а адрес перенаправления */
 		return publisher.getName();
 	}
 

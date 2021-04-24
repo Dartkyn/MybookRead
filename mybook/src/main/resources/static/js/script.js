@@ -12,11 +12,11 @@
                    $('#catalog_tbody').append(e);  
                   
                    for(i = 0; i < data.length; i++) {  
-                     ingredient = data[i];
-                     console.log(ingredient); 
+                     publisher = data[i];
+                     console.log(publisher); 
                      var e = $('<tr><td id = "name"></td><td><button type="button" id = "editID" class="btn btn-secondary">Редактировать</button></td></tr>');
                      
-                      $('#name', e).html(ingredient['name']);  
+                      $('#name', e).html(publisher['name']);  
                      $('#catalog_tbody').append(e);  
                    } 
                   console.log(data); 
