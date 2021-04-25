@@ -165,8 +165,12 @@ public class MybookController {
 	}
 	
 	/** Маршрут на добавление издателя */
-	@PostMapping("/publisher/new")
-	public String createNewPublisher(@RequestParam String name) {
+	@RequestMapping(value="/publisher/new", method=RequestMethod.GET)
+	public @ResponseBody String createPublisher(String s) {
+		return s;
+	}
+	@PostMapping("/publisher/addnew")
+	public @ResponseBody String createNewPublisher(@RequestParam String name) {
 		Publisher publisher = hwJavaService.createPublisher(name);
 		/* В этом случае у нас перенаправление, поэтому возвращаем не имя шаблона, а адрес перенаправления */
 		return publisher.getName();
