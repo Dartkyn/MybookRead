@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/** Класс JPA-сущности для таблицы студентов, внутри используются аннотации, которые описывают, как поля класса будут маппиться в реляционную БД */
+/** Класс JPA-сущности для таблицы книг, внутри используются аннотации, которые описывают, как поля класса будут маппиться в реляционную БД */
 @Entity
 @Table(name = "books")
 public class Book implements Serializable {

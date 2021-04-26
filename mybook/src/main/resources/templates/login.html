@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"
+ xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+ <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" href="/images/book.ico" />
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js" ></script>
+    <script src="/js/script.js" ></script>
+    <title>MYBOOK</title>
+  </head>
+  <body>
+  <div class="container mt-5 mb-5 text-center">
+    <div class="row justify-content-center">
+    <div class="col-3 align-self-center" allign="center">
+   <main class="form-signin">
+  <form th:action="bookshow"
+   th:object="${user}"
+    method="post">
+    <img class="mb-4" src="/images/book.ico" alt="" width="72" height="57">
+    <h4 class="h4 mb-3 fw-normal">Введите данные пользователя</h4>
+
+    <div class="form-floating">
+      <input type="text" name ="userName" class="form-control" id="floatingInput" placeholder="Имя пользователя">
+      <label for="floatingInput">Имя пользователя</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" name ="userPassword" class="form-control" id="floatingPassword" placeholder="Пароль">
+      <label for="floatingPassword">Пароль</label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
+  </form>
+</main>
+</div>
+</div>
+</div>
+  </body>
+</html>

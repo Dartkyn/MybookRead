@@ -10,11 +10,13 @@ import javax.transaction.Transactional;
 import com.mbkread.mybook.core.Writer;
 import com.mbkread.mybook.core.WriterLines;
 import com.mbkread.mybook.repo.BookRepository;
+import com.mbkread.mybook.repo.OrderRepository;
 import com.mbkread.mybook.repo.OrigLangRepository;
 import com.mbkread.mybook.repo.PublisherRepository;
 import com.mbkread.mybook.repo.RatingRepository;
 import com.mbkread.mybook.repo.TranslatorRepository;
 import com.mbkread.mybook.repo.TypeCoverRepository;
+import com.mbkread.mybook.repo.UserRepository;
 import com.mbkread.mybook.repo.WriterRepository;
 import com.mbkread.mybook.repo.WriterLinesRepository;
 import com.mbkread.mybook.core.Translator;
@@ -22,7 +24,9 @@ import com.mbkread.mybook.core.Publisher;
 import com.mbkread.mybook.core.OriginalLanguage;
 import com.mbkread.mybook.core.Rating;
 import com.mbkread.mybook.core.TypeCover;
+import com.mbkread.mybook.core.User;
 import com.mbkread.mybook.core.Book;
+import com.mbkread.mybook.core.Order;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,6 +63,11 @@ public class MybookServImplement implements MybookService{
 	@Autowired
 	private TypeCoverRepository typecoverz;
 	
+	@Autowired
+	private UserRepository userz;
+	
+	@Autowired
+	private OrderRepository orderz;
 	
 	protected final Log log = LogFactory.getLog(getClass());
 	
@@ -146,6 +155,21 @@ public class MybookServImplement implements MybookService{
 	@Override
 	public Publisher createPublisher(String name) {
 		return publisherz.save(new Publisher(name));
+	}
+
+	@Override
+	public Collection<User> users() {
+		return userz.findAll();
+	}
+
+	@Override
+	public Collection<Order> orders() {
+		return orderz.findAll();
+	}
+
+	@Override
+	public User user(Long id) {
+		return userz.getOne(id);
 	}
 
 

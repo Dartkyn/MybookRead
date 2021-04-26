@@ -9,7 +9,9 @@ import com.mbkread.mybook.core.Publisher;
 import com.mbkread.mybook.core.OriginalLanguage;
 import com.mbkread.mybook.core.Rating;
 import com.mbkread.mybook.core.TypeCover;
+import com.mbkread.mybook.core.User;
 import com.mbkread.mybook.core.Book;
+import com.mbkread.mybook.core.Order;
 import com.mbkread.mybook.core.WriterLines;
 
 public interface MybookService {
@@ -20,8 +22,11 @@ public interface MybookService {
 	Collection<Rating> ratings();
 	Collection<Writer> writers();
 	Collection<Translator> translators();
+	Collection<User> users();
+	Collection<Order> orders();
 	Book book(Long id);
 	Publisher publisher(Long id);
+	User user(Long id);
 	void setWriterLines(Book book, Long[] writerIds);
 
 	Book createBook(String title, Double cost, Short pagecnt, String annotation, String imgPath, Publisher publishID, 

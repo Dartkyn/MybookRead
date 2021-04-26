@@ -44,7 +44,7 @@ public class MybookController {
 	/** Дальше пошли обработчики маршрутов */
 	
 	/** Список книг */
-	@GetMapping("/")
+	@GetMapping("/bookshow")
 	public String index(Model vars) {
 		/* Заполняем модель для представления */
 		vars.addAttribute("books", hwJavaService.books()); 
@@ -52,6 +52,19 @@ public class MybookController {
 		return "books";
 	}
 	
+	/** Список книг */
+	@GetMapping("/")
+	public String login(Model vars) { 
+		/* Возвращаем имя шаблона, который надо рендерить */
+		return "login";
+	}
+	
+	/** Маршрут на добавление книги */
+	@PostMapping("/login")
+	public String loginUser(@RequestParam String userName,@RequestParam String userPassword) {
+		/* В этом случае у нас перенаправление, поэтому возвращаем не имя шаблона, а адрес перенаправления */
+		return "redirect:/bookshow";
+	}
 	/** Список справочников */
 	@GetMapping("/catalog")
 	public String catalog(Model vars) {
@@ -105,7 +118,7 @@ public class MybookController {
 		book.setTypeCover(typecoverID);
 		book = hwJavaService.createBook(book);
 		/* В этом случае у нас перенаправление, поэтому возвращаем не имя шаблона, а адрес перенаправления */
-		return "redirect:/";
+		return "redirect:/books";
 	}
 
 	/** Маршрут на добавление книги */
@@ -129,7 +142,7 @@ public class MybookController {
 				translatorID, origlangID, ratingID, typecoverID);
 		WriterLines writerLine = hwJavaService.createWriterLine(book, writerID);
 		/* В этом случае у нас перенаправление, поэтому возвращаем не имя шаблона, а адрес перенаправления */
-		return "redirect:/";
+		return "redirect:/books";
 	}
 
 	/** Маршрут на удаление книги */
