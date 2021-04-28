@@ -16,6 +16,7 @@ import com.mbkread.mybook.core.WriterLines;
 
 public interface MybookService {
 	Collection<Book> books();
+	Collection<Book> books(String search);
 	Collection<Publisher> publishers();
 	Collection<OriginalLanguage> origlangs();
 	Collection<TypeCover> typecovers();
@@ -24,10 +25,12 @@ public interface MybookService {
 	Collection<Translator> translators();
 	Collection<User> users();
 	Collection<Order> orders();
+	Collection<Order> orders(User user);
 	Book book(Long id);
 	Publisher publisher(Long id);
 	User user(Long id);
 	User user(String userName);
+	User createUser(String userName, String userPassword);
 	void setWriterLines(Book book, Long[] writerIds);
 
 	Book createBook(String title, Double cost, Short pagecnt, String annotation, String imgPath, Publisher publishID, 
@@ -39,5 +42,6 @@ public interface MybookService {
 
 	Object writerlines(Book book);
 	Publisher createPublisher(String name);
+	Order createOrder(Book book, User user);
 
 }

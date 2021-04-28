@@ -70,6 +70,8 @@ public class MybookServImplement implements MybookService{
 	private OrderRepository orderz;
 	
 	protected final Log log = LogFactory.getLog(getClass());
+
+	private User user;
 	
 	@Override
 	public Collection<Book> books() {
@@ -182,6 +184,42 @@ public class MybookServImplement implements MybookService{
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Order createOrder(Book book, User user) {
+		return orderz.save(new Order(book, user));
+	}
+
+	@SuppressWarnings("null")
+	public Collection<Order> orders(User user) {
+		Collection<Order> orderNew = orderz.findAll();
+		for(Order order: orderz.findAll())
+			{
+				if(order.getUser().getId() != user.getId())
+					{
+						orderNew.remove(order);
+					}
+			}
+		return orderNew;
+	}
+
+	@Override
+	public User createUser(String userName, String userPassword) {
+		return userz.save(new User(userName, userPassword, false));
+	}
+
+	@Override
+	public Collection<Book> books(String search) {
+		Collection<Book> bookNew = bookz.findAll();
+		for(Book book: bookz.findAll())
+			{
+				if(!(book.getPublisher().contains(search) ||book.getWriters().contains(search)))
+					{
+						bookNew.remove(book);
+					}
+			}
+		return bookNew;
 	}
 
 

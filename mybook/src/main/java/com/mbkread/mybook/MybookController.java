@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.google.gson.Gson;
 import com.mbkread.mybook.core.Book;
+import com.mbkread.mybook.core.Order;
 import com.mbkread.mybook.core.OriginalLanguage;
 import com.mbkread.mybook.core.Publisher;
 import com.mbkread.mybook.core.Rating;
@@ -70,24 +71,36 @@ public class MybookController {
 		User user = hwJavaService.user(userName);
 		if((user != null) && (user.getUserPassword().equals(userPassword)))
 			{
-				System.out.println("Пользователь найден");
 				activeUser = user;
 				isLogin = true;
 				return "redirect:/";
 			}
 		else
 		{
-			System.out.println("Пользователь не найден");
 			return "redirect:/login?error";
 		}
 		
 	}
 	
+	/** Загрузка формы добавления нового пользователя*/
+	@GetMapping("/signup")
+	public String signupUser(Model vars) {
+		vars.addAttribute("user",activeUser).addAttribute("isLogin", isLogin);
+		/* Возвращаем имя шаблона, который надо рендерить */
+		return "signup";
+	}
+	
+	/** Маршрут на поиск и проверку пользователя */
+	@PostMapping("/signup")
+	public String signupUser(@RequestParam String userName,@RequestParam String userPassword) {
+		User user = hwJavaService.createUser(userName, userPassword);
+		return "redirect:/login?signup";
+	}
+	
 	/** Маршрут на логаут */
 	@PostMapping("/logout")
 	public String logoutUser() {
-		User user = new User("def","def", false);;
-		System.out.println("Пользователь вышел");
+		User user = new User("def","def", false);
 		activeUser = user;
 		isLogin = false;
 		return "redirect:/";
@@ -129,7 +142,7 @@ public class MybookController {
 			vars.addAttribute("book", book).addAttribute("publishers", hwJavaService.publishers()).addAttribute("writers", 
 				hwJavaService.writers()).addAttribute("typecovers", hwJavaService.typecovers()).addAttribute("origlangs", 
 				hwJavaService.origlangs()).addAttribute("translators", hwJavaService.translators()).addAttribute("ratings", 
-				hwJavaService.ratings());
+				hwJavaService.ratings()).addAttribute("user",activeUser).addAttribute("isLogin", isLogin);
 			return "edit";
 		}
 		else
@@ -155,7 +168,7 @@ public class MybookController {
 		book.setPublisher(publishID);
 		book.setRating(ratingID);
 		book.setTranslator(translatorID);
-		book.setWriters(writerID);
+		book.setWriters(hwJavaService.createWriterLine(book, writerID).getWriter());
 		book.setTypeCover(typecoverID);
 		book = hwJavaService.createBook(book);
 		/* В этом случае у нас перенаправление, поэтому возвращаем не имя шаблона, а адрес перенаправления */
@@ -170,7 +183,7 @@ public class MybookController {
 		vars.addAttribute("publishers", hwJavaService.publishers()).addAttribute("writers", 
 				hwJavaService.writers()).addAttribute("typecovers", hwJavaService.typecovers()).addAttribute("origlangs", 
 				hwJavaService.origlangs()).addAttribute("translators", hwJavaService.translators()).addAttribute("ratings", 
-				hwJavaService.ratings());
+				hwJavaService.ratings()).addAttribute("user",activeUser).addAttribute("isLogin", isLogin);
 		return "new";
 		}
 		else
@@ -236,6 +249,49 @@ public class MybookController {
 		Publisher publisher = hwJavaService.createPublisher(name);
 		/* В этом случае у нас перенаправление, поэтому возвращаем не имя шаблона, а адрес перенаправления */
 		return publisher.getName();
+	}
+	
+	/** Список заказов */
+	@GetMapping("/orders")
+	public String orders(Model vars) {
+		if(isLogin)
+		{	
+		/* Заполняем модель для представления */
+		vars.addAttribute("books", hwJavaService.books()).addAttribute("user",activeUser).addAttribute("isLogin", isLogin);
+		vars.addAttribute("orders", hwJavaService.orders(activeUser));
+		/* Возвращаем имя шаблона, который надо рендерить */
+		return "orders";
+		}
+		else
+		{
+			return "redirect:/";
+		}
+	}
+	
+	/** Маршрут на форму редактирования книги */
+	@PostMapping("/order/{id}")
+	public String createNewBookOrder(@PathVariable("id") Long id) {
+		if(isLogin)
+		{	
+			Book book = hwJavaService.book(id);
+			Order order = hwJavaService.createOrder(book, activeUser);
+			/* В этом случае у нас перенаправление, поэтому возвращаем не имя шаблона, а адрес перенаправления */
+			return "redirect:/orders";
+		}
+		else
+		{
+			return "redirect:/";
+		}
+	}
+	
+	/** Список заказов */
+	@GetMapping("/search")
+	public String search(@RequestParam String search, Model vars) {
+		/* Заполняем модель для представления */
+		vars.addAttribute("user",activeUser).addAttribute("isLogin", isLogin);
+		vars.addAttribute("books", hwJavaService.books(search));
+		/* Возвращаем имя шаблона, который надо рендерить */
+		return "search";
 	}
 
 }

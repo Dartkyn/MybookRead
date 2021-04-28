@@ -23,17 +23,22 @@
       <span class="navbar-toggler-icon"></span>
     </button>
       <ul class="navbar-nav ml-auto">
-        <form class="d-flex">
-        <input class="form-control me-2"  type="text" placeholder="Поиск" aria-label="Search" />
+        <form method="get" th:action="search" class="d-flex">
+        <input class="form-control me-2" name = "search" type="text" placeholder="Введите автора или издательство" aria-label="Search" />
+        <button type="submit" class="btn btn-dark">Найти</button>
         </form>
         <li class="nav-item">
-           <a th:if="${user.getIsAdmin()}" class="nav-link" href="/catalog">Справочники</a>
+          <a th:if="${user.getIsAdmin()}" class="nav-link" href="/catalog">Справочники</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/login">Пользователь</a>
+          <a th:if="${not isLogin}" class="nav-link" href="/login">Пользователь</a>
+          <a th:if="${isLogin}" class="nav-link" href="/login" th:text="${user.getUserName()}"></a>
         </li>
          <li class="nav-item">
           <a th:if="${user.getIsAdmin()}" class="nav-link" th:href="@{'/new'}">Добавить книгу</a>
+        </li>
+        <li th:if="${not user.getIsAdmin() and isLogin}" class="nav-item">
+          <a  class="nav-link" th:href="@{'/orders'}">Заказы</a>
         </li>
       </ul>
     </div>
@@ -54,11 +59,11 @@
         <ul class="list-group list-group-flush">
         <li class="list-group-item"><td th:text="${book.getCost()}"</li>
         <li th:if="${isLogin}" class="list-group-item">
-          <form>
-        <button type="button" class="btn btn-success">Заказать</button>
-        </form>
         <form th:if="${user.getIsAdmin()}" method="POST" action="/books" class="form-inline">
         <a th:href="@{/edit/{id}(id=${book.getId()})}"><button type="button"  class="btn btn-secondary">Редактировать</button></a>
+        <form th:if="${not user.getIsAdmin() and isLogin}" method="post" th:action="@{'/order/' + ${book.getId()}}">
+      <button type="submit" class="btn btn-primary btn-sm">Заказать</button>
+      </form>
       </form>
       </li>
         <li class="list-group-item">Автор: <td th:text="${book.getWriters()}"></td></li>

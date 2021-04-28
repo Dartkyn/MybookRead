@@ -135,7 +135,7 @@ public class Book implements Serializable {
 		String s = "";
 		for(WriterLines writer:writerlines)
 			{
-				s=s.concat(writer.getWriter());
+				s=s.concat(writer.getWriter().toString());
 			}
 		return s;
 	}

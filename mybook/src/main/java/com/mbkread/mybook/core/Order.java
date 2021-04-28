@@ -35,6 +35,13 @@ public class Order implements Serializable{
 	public String toString() {
 		return "Order [id=" + id + "]";
 	}
+	public User getUser() {
+		return id.user;
+	}
+	
+	public Book getBook() {
+		return id.book;
+	}
 	/** Это класс ключа таблицы заказов, он состоит из двух внешних ключей: до таблицы пользователя и до таблицы книг */
 	@Embeddable
 	// TODO: override equals(), hashCode()

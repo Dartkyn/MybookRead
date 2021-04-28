@@ -16,14 +16,14 @@
     <title>MYBOOK</title>
   </head>
   <body>
-       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
     <a class="navbar-brand" href="/">MYBOOK</a>
     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
       <ul class="navbar-nav ml-auto">
-       <form method="get" th:action="search" class="d-flex">
+        <form method="get" th:action="search" class="d-flex">
         <input class="form-control me-2" name = "search" type="text" placeholder="Введите автора или издательство" aria-label="Search" />
         <button type="submit" class="btn btn-dark">Найти</button>
         </form>
@@ -46,19 +46,21 @@
 
    <div class="container mt-5">
    	<div class="row">
-       <h1>
-          <a id = "loadcatalog" class="btn btn-success" href = "#">Издательства</a>
-        </h1>
-        
+      <h1>Заказы</h1>
         <table class="table">
           <thead class="table-success">
             <tr>
               <th>Наименование</th>
-              <th></th>
+              <th>Автор</th>
+              <th>Стоимость</th>
             </tr>
           </thead>
-          <tbody id="catalog_tbody">
-          
+          <tbody>
+           <tr th:each="order: ${orders}">
+            <td th:text="${order.getBook().getName()}"></td>
+            <td th:text="${order.getBook().getWriters()}"></td>
+            <td th:text="${order.getBook().getCost()}"></td>
+           </tr>
           </tbody>
         </table>  
 	   </div>

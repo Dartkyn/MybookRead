@@ -31,8 +31,8 @@ public class WriterLines implements Serializable {
 		id.writer = writer;
 	}
 
-	public String getWriter() {
-		return id.writer.toString();
+	public Writer getWriter() {
+		return id.writer;
 	}
 
 
