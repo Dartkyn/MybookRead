@@ -39,6 +39,9 @@ public class MybookController {
 	/** Инъекция сервиса бизнес-логики */
 	@Autowired
 	private MybookService hwJavaService;
+	
+	private User activeUser = new User("def","def", false);
+	private Boolean isLogin = false;
 
 	protected final Log log = LogFactory.getLog(getClass());
 
@@ -48,27 +51,28 @@ public class MybookController {
 	@GetMapping("/")
 	public String index(Model vars) {
 		/* Заполняем модель для представления */
-		vars.addAttribute("books", hwJavaService.books()); 
+		vars.addAttribute("books", hwJavaService.books()).addAttribute("user",activeUser).addAttribute("isLogin", isLogin); 
 		/* Возвращаем имя шаблона, который надо рендерить */
 		return "books";
 	}
 	
-	/** Список книг */
+	/** Загрузка формы логинки*/
 	@GetMapping("/login")
 	public String login(Model vars) {
-		vars.addAttribute("users", hwJavaService.users());
+		vars.addAttribute("user",activeUser).addAttribute("isLogin", isLogin);
 		/* Возвращаем имя шаблона, который надо рендерить */
 		return "login";
 	}
 	
-	/** Маршрут на добавление книги */
+	/** Маршрут на поиск и проверку пользователя */
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String userName,@RequestParam String userPassword) {
 		User user = hwJavaService.user(userName);
 		if((user != null) && (user.getUserPassword().equals(userPassword)))
 			{
 				System.out.println("Пользователь найден");
-				user.setIsActive(true);
+				activeUser = user;
+				isLogin = true;
 				return "redirect:/";
 			}
 		else
@@ -78,36 +82,60 @@ public class MybookController {
 		}
 		
 	}
+	
+	/** Маршрут на логаут */
+	@PostMapping("/logout")
+	public String logoutUser() {
+		User user = new User("def","def", false);;
+		System.out.println("Пользователь вышел");
+		activeUser = user;
+		isLogin = false;
+		return "redirect:/";
+		
+	}
 	/** Список справочников */
 	@GetMapping("/catalog")
 	public String catalog(Model vars) {
-		/* Заполняем модель для представления */
-		vars.addAttribute("publishers", hwJavaService.publishers()).
+		if(activeUser.getIsAdmin())
+		{/* Заполняем модель для представления */
+			vars.addAttribute("publishers", hwJavaService.publishers()).
 				addAttribute("typecovers", hwJavaService.typecovers()).
 				addAttribute("origlangs", 
 				hwJavaService.origlangs()).addAttribute("ratings", 
 				hwJavaService.ratings()); 
-		/* Возвращаем имя шаблона, который надо рендерить */
-		return "catalog";
+			/* Возвращаем имя шаблона, который надо рендерить */
+			return "catalog";
+		}
+		else
+		{
+			return "redirect:/";
+		}
 	}
 
 	/** Страница одной книги, маршрут с параметром */
 	@GetMapping("/books/{id}")
 	public String book(@PathVariable Long id, Model vars) {
 		Book book = hwJavaService.book(id);
-		vars.addAttribute("book", book);
+		vars.addAttribute("book", book).addAttribute("user",activeUser).addAttribute("isLogin", isLogin);
 		return "book";
 	}
 	
 	/** Страница редактирования одной книги, маршрут с параметром */
 	@GetMapping("/edit/{id}")
 	public String editBook(@PathVariable Long id, Model vars) {
-		Book book = hwJavaService.book(id);
-		vars.addAttribute("book", book).addAttribute("publishers", hwJavaService.publishers()).addAttribute("writers", 
+		if(activeUser.getIsAdmin())
+		{
+			Book book = hwJavaService.book(id);
+			vars.addAttribute("book", book).addAttribute("publishers", hwJavaService.publishers()).addAttribute("writers", 
 				hwJavaService.writers()).addAttribute("typecovers", hwJavaService.typecovers()).addAttribute("origlangs", 
 				hwJavaService.origlangs()).addAttribute("translators", hwJavaService.translators()).addAttribute("ratings", 
 				hwJavaService.ratings());
-		return "edit";
+			return "edit";
+		}
+		else
+		{
+			return "redirect:/";
+		}
 	}
 	
 	/** Маршрут на форму редактирования книги */
@@ -137,11 +165,19 @@ public class MybookController {
 	/** Маршрут на добавление книги */
 	@GetMapping("/new")
 	public String createBook(Model vars) {
+		if(activeUser.getIsAdmin())
+		{
 		vars.addAttribute("publishers", hwJavaService.publishers()).addAttribute("writers", 
 				hwJavaService.writers()).addAttribute("typecovers", hwJavaService.typecovers()).addAttribute("origlangs", 
 				hwJavaService.origlangs()).addAttribute("translators", hwJavaService.translators()).addAttribute("ratings", 
 				hwJavaService.ratings());
 		return "new";
+		}
+		else
+		{
+			return "redirect:/";
+		}
+		
 	}
 	
 	/** Маршрут на добавление книги */

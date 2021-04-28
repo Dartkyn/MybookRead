@@ -27,13 +27,13 @@
         <input class="form-control me-2"  type="text" placeholder="Поиск" aria-label="Search" />
         </form>
         <li class="nav-item">
-           <a class="nav-link" href="/catalog">Справочники</a>
+           <a th:if="${user.getIsAdmin()}" class="nav-link" href="/catalog">Справочники</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/login">Пользователь</a>
         </li>
          <li class="nav-item">
-          <a class="nav-link" th:href="@{'/new'}">Добавить книгу</a>
+          <a th:if="${user.getIsAdmin()}" class="nav-link" th:href="@{'/new'}">Добавить книгу</a>
         </li>
       </ul>
     </div>
@@ -53,9 +53,11 @@
         <div class="card">
         <ul class="list-group list-group-flush">
         <li class="list-group-item"><td th:text="${book.getCost()}"</li>
-        <li class="list-group-item">
+        <li th:if="${isLogin}" class="list-group-item">
+          <form>
         <button type="button" class="btn btn-success">Заказать</button>
-        <form method="POST" action="/books" class="form-inline">
+        </form>
+        <form th:if="${user.getIsAdmin()}" method="POST" action="/books" class="form-inline">
         <a th:href="@{/edit/{id}(id=${book.getId()})}"><button type="button"  class="btn btn-secondary">Редактировать</button></a>
       </form>
       </li>

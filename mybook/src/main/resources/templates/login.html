@@ -16,6 +16,28 @@
     <title>MYBOOK</title>
   </head>
   <body>
+    <nav th:if="${isLogin}" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+    <a class="navbar-brand" href="/">MYBOOK</a>
+    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+      <ul class="navbar-nav ml-auto">
+        <form class="d-flex">
+        <input class="form-control me-2"  type="text" placeholder="Поиск" aria-label="Search" />
+        </form>
+        <li class="nav-item">
+          <a th:if="${user.getIsAdmin()}" class="nav-link" href="/catalog">Справочники</a>
+        </li>
+        <li class="nav-item">
+          <a th:if="${isLogin}" class="nav-link" href="/login" th:text="${user.getUserName()}"></a>
+        </li>
+         <li class="nav-item">
+          <a th:if="${user.getIsAdmin()}" class="nav-link" th:href="@{'/new'}">Добавить книгу</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
   <div class="container mt-5 mb-5 text-center">
     <div th:if="${param.error}">
             Invalid username and password.
@@ -24,9 +46,13 @@
             You have been logged out.
         </div>
     <div class="row justify-content-center">
+
     <div class="col-3 align-self-center" allign="center">
+      <form th:if="${isLogin}" th:action="logout" method="post">
+            <input class="w-100 btn btn-lg btn-danger" type="submit" value="Sign Out"/>
+        </form>
    <main class="form-signin">
-  <form th:action="login"
+  <form th:if="${not isLogin}" th:action="login"
     method="post">
     <img class="mb-4" src="/images/book.ico" alt="" width="72" height="57">
     <h4 class="h4 mb-3 fw-normal">Введите данные пользователя</h4>
