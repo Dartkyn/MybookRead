@@ -36,6 +36,11 @@ public class User implements Serializable{
 	/** Коллекция строк писателей */
 	@OneToMany(mappedBy = "id.user", cascade = CascadeType.REMOVE)
 	private Collection<Order> orders;
+	 
+	private Boolean isActive;
+	
+	@Column(nullable = false, unique = false)
+	private Boolean isAdmin;
 	
 	@Override
 	public String toString() {
@@ -47,6 +52,9 @@ public class User implements Serializable{
 		this.id = id;
 		this.userName = userName;
 		this.userPassword = userPassword;
+	}
+	protected User() {
+		//
 	}
 
 	public Long getId() {
@@ -71,6 +79,22 @@ public class User implements Serializable{
 
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
+	}
+
+	public Boolean getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(Boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	

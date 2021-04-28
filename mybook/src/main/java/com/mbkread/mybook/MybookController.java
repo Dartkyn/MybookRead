@@ -10,6 +10,7 @@ import com.mbkread.mybook.core.Publisher;
 import com.mbkread.mybook.core.Rating;
 import com.mbkread.mybook.core.Translator;
 import com.mbkread.mybook.core.TypeCover;
+import com.mbkread.mybook.core.User;
 import com.mbkread.mybook.core.Writer;
 import com.mbkread.mybook.core.WriterLines;
 import com.mbkread.mybook.svc.MybookService;
@@ -44,7 +45,7 @@ public class MybookController {
 	/** Дальше пошли обработчики маршрутов */
 	
 	/** Список книг */
-	@GetMapping("/bookshow")
+	@GetMapping("/")
 	public String index(Model vars) {
 		/* Заполняем модель для представления */
 		vars.addAttribute("books", hwJavaService.books()); 
@@ -53,8 +54,9 @@ public class MybookController {
 	}
 	
 	/** Список книг */
-	@GetMapping("/")
-	public String login(Model vars) { 
+	@GetMapping("/login")
+	public String login(Model vars) {
+		vars.addAttribute("users", hwJavaService.users());
 		/* Возвращаем имя шаблона, который надо рендерить */
 		return "login";
 	}
@@ -62,8 +64,19 @@ public class MybookController {
 	/** Маршрут на добавление книги */
 	@PostMapping("/login")
 	public String loginUser(@RequestParam String userName,@RequestParam String userPassword) {
-		/* В этом случае у нас перенаправление, поэтому возвращаем не имя шаблона, а адрес перенаправления */
-		return "redirect:/bookshow";
+		User user = hwJavaService.user(userName);
+		if((user != null) && (user.getUserPassword().equals(userPassword)))
+			{
+				System.out.println("Пользователь найден");
+				user.setIsActive(true);
+				return "redirect:/";
+			}
+		else
+		{
+			System.out.println("Пользователь не найден");
+			return "redirect:/login?error";
+		}
+		
 	}
 	/** Список справочников */
 	@GetMapping("/catalog")
@@ -118,7 +131,7 @@ public class MybookController {
 		book.setTypeCover(typecoverID);
 		book = hwJavaService.createBook(book);
 		/* В этом случае у нас перенаправление, поэтому возвращаем не имя шаблона, а адрес перенаправления */
-		return "redirect:/books";
+		return "redirect:/";
 	}
 
 	/** Маршрут на добавление книги */
@@ -142,7 +155,7 @@ public class MybookController {
 				translatorID, origlangID, ratingID, typecoverID);
 		WriterLines writerLine = hwJavaService.createWriterLine(book, writerID);
 		/* В этом случае у нас перенаправление, поэтому возвращаем не имя шаблона, а адрес перенаправления */
-		return "redirect:/books";
+		return "redirect:/";
 	}
 
 	/** Маршрут на удаление книги */

@@ -26,6 +26,11 @@ public class Order implements Serializable{
 		id.book = book;
 		id.user = user;
 	}
+	
+	protected Order() {
+		//
+	}
+
 	@Override
 	public String toString() {
 		return "Order [id=" + id + "]";

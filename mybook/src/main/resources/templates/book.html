@@ -30,7 +30,7 @@
            <a class="nav-link" href="/catalog">Справочники</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="login.html">Пользователь</a>
+          <a class="nav-link" href="/login">Пользователь</a>
         </li>
          <li class="nav-item">
           <a class="nav-link" th:href="@{'/new'}">Добавить книгу</a>
@@ -46,11 +46,11 @@
     </div>
     <div class="row">
       <div class="card-group">
-      <div class="card"style="width: 8rem;">
-      <div class="card-body">
+      <div class="col-md-3">
       <img th:src="${book.getImage()}"  style="height: 18rem;" class="card-img-top mx-left" th:alt="${book.getImage()}" \>
-        </div></div>
-        <div class="card" style="width: 30rem;">
+      </div>
+        <div class="col-md-9">
+        <div class="card">
         <ul class="list-group list-group-flush">
         <li class="list-group-item"><td th:text="${book.getCost()}"</li>
         <li class="list-group-item">
@@ -69,6 +69,7 @@
         </ul>
         </div>
       </div>
+    </div>
     </div>
     <div class="row">
         <div class="card">

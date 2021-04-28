@@ -27,6 +27,7 @@ public interface MybookService {
 	Book book(Long id);
 	Publisher publisher(Long id);
 	User user(Long id);
+	User user(String userName);
 	void setWriterLines(Book book, Long[] writerIds);
 
 	Book createBook(String title, Double cost, Short pagecnt, String annotation, String imgPath, Publisher publishID, 

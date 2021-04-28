@@ -172,6 +172,18 @@ public class MybookServImplement implements MybookService{
 		return userz.getOne(id);
 	}
 
+	@Override
+	public User user(String userName) {
+		for(User us:userz.findAll())
+		{
+			if(us.getUserName().equals(userName))
+			{
+				return us;
+			}
+		}
+		return null;
+	}
+
 
 
 }
